@@ -34,10 +34,13 @@ function resetGame() {
         board[i].innerHTML = "";
     }
   
-    // TODO reset player back to X and update it on the page
+    // DONE reset player back to X and update it on the page
+    player = "X";
+    document.getElementById("player").innerHTML = player;
     
-
-    // TODO reset gameOver and # of empty cells
+    // DONE reset gameOver and # of empty cells
+    gameOver = false;
+    empty = 9;
 }
 
 /* Function cellClicked() is called
@@ -51,16 +54,20 @@ function resetGame() {
  */
 function cellClicked(cell) {
 
-    //TODO: 1-5 should occur only when the selected cell is empty and the game is 
+    //DONE: 1-5 should occur only when the selected cell is empty and the game is 
     // still in progress!
-
-    // TODO: decrease # of empty cells by 1
-  
-    // TODO: document this code from class
-    cell.innerHTML = player;
-    checkWin();    
-    player = (player === "X") ? "O" : "X";
-    document.getElementById("player").innerHTML = player;
+    
+    if ((board[cell].innerHTML == 0) && (!gameOver))
+    {
+        
+        // TODO: document this code from class
+        // DONE: decrease # of empty cells by 1
+        empty -= 1;
+        board[cell].innerHTML = player;
+        checkWin();    
+        player = (player === "X") ? "O" : "X";
+        document.getElementById("player").innerHTML = player;
+    }
 }
 
 /* Function checkWin() is called to check all winning combinations and display results
@@ -75,19 +82,30 @@ function checkWin() {
                 
             console.log("We have a winner!");
 
-            // TODO: replace console.log("We have a winner!") with:
-            //  - set gameOver variable: game is now over  
+            // DONE: replace console.log("We have a winner!") with:
+            //  - set gameOver variable: game is now over
+            gameOver = true;
             //  - display "X Wins!" or "O Wins!" in the winner H3
+            document.getElementById("winner").innerHTML = player+" Wins!";
             //  - call displayWin(true) function
+            displayWin(true);
             //  - break out of this loop: no point in continuing
+            break;
         }
     }
 
-    // TODO: if there are no empty cells left and game is not yet over,
+    // DONE: if there are no empty cells left and game is not yet over,
     //       it means that there is no winner for this game
-    // - set gameOver variable: game is now over  
-    // - display "No one wins! :(" in the winner H3
-    // - call displayWin(true) function
+    
+    if (!empty)
+    {
+        // - set gameOver variable: game is now over 
+        gameOver = true;
+        // - display "No one wins! :(" in the winner H3
+        document.getElementById("winner").innerHTML = "No one wins! :(";
+        // - call displayWin(true) function
+        displayWin(true);
+    }
     
 }
 
